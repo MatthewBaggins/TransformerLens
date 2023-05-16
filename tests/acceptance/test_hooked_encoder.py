@@ -15,7 +15,7 @@ def test_hooked_encoder_full():
     attention_mask = tokenized["attention_mask"]
 
     hf_bert = BertForMaskedLM.from_pretrained("bert-base-cased")
-    our_bert = HookedEncoder.from_pretrained("bert-base-cased")
+    our_bert = HookedEncoder.from_pretrained("bert-base-cased").to("cpu")
 
     hf_bert_out = hf_bert(input_ids, attention_mask=attention_mask).logits
     our_bert_out = our_bert(input_ids, one_zero_attention_mask=attention_mask)
@@ -121,7 +121,7 @@ def test_hooked_encoder_unembed():
 
 
 def test_hooked_encoder_run_with_cache():
-    model = HookedEncoder.from_pretrained("bert-base-cased")
+    model = HookedEncoder.from_pretrained("bert-base-cased").to("cpu")
     tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
     input_ids = tokenizer("Hello, world!", return_tensors="pt")["input_ids"]
     logits, cache = model.run_with_cache(input_ids)
