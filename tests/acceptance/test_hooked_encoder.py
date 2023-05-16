@@ -47,7 +47,6 @@ def test_bert_from_pretrained_embed_two_sentences():
 
     hf_bert = BertForMaskedLM.from_pretrained("bert-base-cased").bert
     our_bert = HookedEncoder.from_pretrained("bert-base-cased")
-
     hf_embed_out = hf_bert.embeddings(input_ids, token_type_ids=token_type_ids)[0]
     our_embed_out = our_bert.embed(input_ids, token_type_ids=token_type_ids).squeeze(0)
     assert_close(hf_embed_out, our_embed_out)
